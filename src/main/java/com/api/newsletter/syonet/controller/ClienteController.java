@@ -26,13 +26,17 @@ public class ClienteController {
     public ResponseEntity<String> criar(@RequestBody ClienteDTO clienteDTO) {
         try {
 
+            if(clienteDTO.nome().isEmpty()){
+                throw new IllegalArgumentException("Preenchimento de nome é obrigatório.");
+            }
+
             if(!clienteService.isValidaEmail(clienteDTO.email())){
-                throw new IllegalArgumentException("E-mail inválido");
+                throw new IllegalArgumentException("E-mail inválido.");
             }
 
             if(!clienteDTO.dtNascimento().isEmpty()){
                 if(!clienteService.isValidaData(clienteDTO.dtNascimento())){
-                    throw new IllegalArgumentException("Data inválida");
+                    throw new IllegalArgumentException("Data inválida.");
                 }
             }
 
