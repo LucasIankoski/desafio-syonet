@@ -14,9 +14,11 @@ import java.util.List;
 public class EmailService implements EmailUseCase {
 
     private final JavaMailSender jmSender;
+    private final ClienteService clienteService;
 
-    public EmailService(JavaMailSender jmSender) {
+    public EmailService(JavaMailSender jmSender, ClienteService clienteService) {
         this.jmSender = jmSender;
+        this.clienteService = clienteService;
     }
 
     @Override
@@ -35,11 +37,10 @@ public class EmailService implements EmailUseCase {
         StringBuilder descEmail = new StringBuilder();
         descEmail.append("Bom dia, ").append(cliente.getNome()).append("!\n\n");
 
-        System.out.println(LocalDate.now());
-        System.out.println(cliente.getDtNascimento());
-
-        if (cliente.getDtNascimento() != null && cliente.getDtNascimento().equals(LocalDate.now())) {
-            descEmail.append("Hoje é um dia muito especial. A newsletter Syonet deseja um feliz aniversário!\n\n");
+        if(cliente.getDtNascimento() != null){
+            if (clienteService.isValidaAniversario(cliente.getDtNascimento())) {
+                descEmail.append("Hoje é um dia muito especial. A newsletter Syonet deseja um feliz aniversário!\n\n");
+            }
         }
 
         for (Noticia noticia : noticias) {
