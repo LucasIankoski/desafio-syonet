@@ -14,4 +14,7 @@ public interface ClienteUseCase {
     boolean isValidaData(String data);
 
     boolean isValidaEmail(String email);
+
+    boolean isValidaAniversario(LocalDate dtNascimento);
+
 }

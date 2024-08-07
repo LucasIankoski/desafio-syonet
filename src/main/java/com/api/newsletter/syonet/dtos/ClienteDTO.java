@@ -1,6 +1,6 @@
 package com.api.newsletter.syonet.dtos;
 
-import java.time.LocalDate;
+import java.util.Optional;
 
-public record ClienteDTO(String nome, String email, String dtNascimento) {
+public record ClienteDTO(String nome, String email, Optional<String> dtNascimento) {
 }

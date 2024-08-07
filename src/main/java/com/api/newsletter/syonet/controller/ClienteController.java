@@ -25,35 +25,25 @@ public class ClienteController {
     @PostMapping
     public ResponseEntity<String> criar(@RequestBody ClienteDTO clienteDTO) {
         try {
+            clienteService.validarClienteDTO(clienteDTO);
 
-            if(clienteDTO.nome().isEmpty()){
-                throw new IllegalArgumentException("Preenchimento de nome é obrigatório.");
-            }
-
-            if(!clienteService.isValidaEmail(clienteDTO.email())){
-                throw new IllegalArgumentException("E-mail inválido.");
-            }
-
-            if(!clienteDTO.dtNascimento().isEmpty()){
-                if(!clienteService.isValidaData(clienteDTO.dtNascimento())){
-                    throw new IllegalArgumentException("Data inválida.");
-                }
-            }
+            LocalDate dataNascimento = clienteService.parseDataNascimento(clienteDTO.dtNascimento().orElse(null));
 
             Cliente cliente = Cliente.builder()
                     .nome(clienteDTO.nome())
                     .email(clienteDTO.email())
-                    .dtNascimento(LocalDate.parse(clienteDTO.dtNascimento()))
+                    .dtNascimento(dataNascimento)
                     .build();
 
             clienteService.salvar(cliente);
             return new ResponseEntity<>("Cliente criado com sucesso", HttpStatus.CREATED);
-
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
+
 
     @GetMapping
     public ResponseEntity listarClientes() {
