@@ -18,11 +18,12 @@ public class Noticia {
     @Id
     private Long id;
 
-    @Column(name = "title", nullable = false)
-    private String title;
+    @Column(name = "titulo", nullable = false)
+    private String titulo;
 
-    @Column(name = "description", nullable = false)
-    private String description;
+    @Lob
+    @Column(name = "descricao", nullable = false)
+    private String descricao;
 
     @Column(name = "link")
     private String link;
@@ -36,11 +37,11 @@ public class Noticia {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Noticia noticia = (Noticia) o;
-        return Objects.equals(id, noticia.id) && Objects.equals(title, noticia.title) && Objects.equals(description, noticia.description) && Objects.equals(link, noticia.link);
+        return Objects.equals(id, noticia.id) && Objects.equals(titulo, noticia.titulo) && Objects.equals(descricao, noticia.descricao) && Objects.equals(link, noticia.link);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, link);
+        return Objects.hash(id, titulo, descricao, link);
     }
 }

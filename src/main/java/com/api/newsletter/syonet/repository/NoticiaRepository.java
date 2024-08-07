@@ -7,5 +7,5 @@ import java.util.List;
 
 
 public interface NoticiaRepository extends JpaRepository<Noticia, Long> {
-    List<Noticia> findByNaoProcessadas();
+    List<Noticia> findByProcessadaFalse();
 }
