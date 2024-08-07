@@ -9,4 +9,5 @@ public interface EmailUseCase {
 
     void enviaEmail(Cliente cliente, List<Noticia> noticias);
 
+    StringBuilder montaMensagemEmail(Cliente cliente, List<Noticia> noticias);
 }
