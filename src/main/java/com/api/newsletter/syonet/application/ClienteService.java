@@ -3,6 +3,9 @@ package com.api.newsletter.syonet.application;
 import com.api.newsletter.syonet.core.ClienteUseCase;
 import com.api.newsletter.syonet.dtos.ClienteDTO;
 import com.api.newsletter.syonet.entities.Cliente;
+import com.api.newsletter.syonet.exceptions.DataInvalidaException;
+import com.api.newsletter.syonet.exceptions.EmailInvalidoException;
+import com.api.newsletter.syonet.exceptions.NomeObrigatorioException;
 import com.api.newsletter.syonet.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,17 +39,17 @@ public class ClienteService implements ClienteUseCase {
 
     public void validarClienteDTO(ClienteDTO clienteDTO) {
         if (clienteDTO.nome().isEmpty()) {
-            throw new IllegalArgumentException("Preenchimento de nome é obrigatório.");
+            throw new NomeObrigatorioException();
         }
         if (!isValidaEmail(clienteDTO.email())) {
-            throw new IllegalArgumentException("E-mail inválido.");
+            throw new EmailInvalidoException();
         }
     }
 
     public LocalDate parseDataNascimento(String dataStr) {
         if (dataStr != null && !dataStr.isEmpty()) {
             if (!isValidaData(dataStr)) {
-                throw new IllegalArgumentException("Data inválida.");
+                throw new DataInvalidaException();
             }
             return LocalDate.parse(dataStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         }

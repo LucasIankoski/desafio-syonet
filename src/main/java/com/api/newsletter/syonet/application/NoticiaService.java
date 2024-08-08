@@ -3,6 +3,9 @@ package com.api.newsletter.syonet.application;
 import com.api.newsletter.syonet.core.NoticiaUseCase;
 import com.api.newsletter.syonet.dtos.NoticiaDTO;
 import com.api.newsletter.syonet.entities.Noticia;
+import com.api.newsletter.syonet.exceptions.DescricaoNaoPreenchidoException;
+import com.api.newsletter.syonet.exceptions.LinkInvalidoException;
+import com.api.newsletter.syonet.exceptions.TituloNaoPreenchidoException;
 import com.api.newsletter.syonet.repository.NoticiaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,16 +60,17 @@ public class NoticiaService implements NoticiaUseCase {
     public boolean isValidaNoticia(NoticiaDTO noticia) throws Exception {
 
         if (noticia.titulo().isEmpty()) {
-            throw new IllegalArgumentException("O preenchimento do título é obrigatório");
+            throw new TituloNaoPreenchidoException();
         }
 
         if (noticia.descricao().isEmpty()) {
-            throw new IllegalArgumentException("O preenchimento da descrição é obrigatório");
+            throw new DescricaoNaoPreenchidoException();
         }
 
         if (!noticia.link().isEmpty()) {
             if (!isValidaLink(noticia.link())) {
-                throw new Exception("O endereço do link não é válido");
+                throw new LinkInvalidoException();
+
             }
         }
 
