@@ -44,7 +44,7 @@ public class NoticiaService implements NoticiaUseCase {
 
     @Override
     public boolean isValidaLink(String link) {
-                try {
+        try {
             new URL(link).toURI();
             return true;
         } catch (MalformedURLException | URISyntaxException e) {
@@ -55,16 +55,17 @@ public class NoticiaService implements NoticiaUseCase {
 
     @Override
     public boolean isValidaNoticia(NoticiaDTO noticia) throws Exception {
-        if(noticia.titulo().isEmpty()){
+
+        if (noticia.titulo().isEmpty()) {
             throw new IllegalArgumentException("O preenchimento do título é obrigatório");
         }
 
-        if(noticia.descricao().isEmpty()){
+        if (noticia.descricao().isEmpty()) {
             throw new IllegalArgumentException("O preenchimento da descrição é obrigatório");
         }
 
-        if(!noticia.link().isEmpty()){
-            if(!isValidaLink(noticia.link())){
+        if (!noticia.link().isEmpty()) {
+            if (!isValidaLink(noticia.link())) {
                 throw new Exception("O endereço do link não é válido");
             }
         }
