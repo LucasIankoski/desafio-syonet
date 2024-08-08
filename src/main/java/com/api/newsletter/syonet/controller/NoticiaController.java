@@ -24,12 +24,7 @@ public class NoticiaController {
     @PostMapping
     public ResponseEntity<String> cadastrarNoticia(@RequestBody NoticiaDTO noticiaDTO){
         try {
-
-            if(noticiaDTO.titulo().isEmpty())
-                throw new IllegalArgumentException("O preenchimento do título é obrigatório");
-
-            if(noticiaDTO.descricao().isEmpty())
-                throw new IllegalArgumentException("O preenchimento da descrição é obrigatório");
+            noticiaService.isValidaNoticia(noticiaDTO);
 
             Noticia noticia = Noticia.builder()
                     .titulo(noticiaDTO.titulo())
@@ -40,7 +35,7 @@ public class NoticiaController {
             noticiaService.cadastrarNoticia(noticia);
 
             return new ResponseEntity<>("Notícia cadastrada com sucesso.", HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 

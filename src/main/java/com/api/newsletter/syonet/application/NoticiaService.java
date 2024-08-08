@@ -1,12 +1,16 @@
 package com.api.newsletter.syonet.application;
 
 import com.api.newsletter.syonet.core.NoticiaUseCase;
+import com.api.newsletter.syonet.dtos.NoticiaDTO;
 import com.api.newsletter.syonet.entities.Noticia;
 import com.api.newsletter.syonet.repository.NoticiaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 
 @Service
@@ -36,5 +40,35 @@ public class NoticiaService implements NoticiaUseCase {
     @Transactional
     public List<Noticia> filtrarNaoProcessadas() {
         return noticiaRepository.findByProcessadaFalse();
+    }
+
+    @Override
+    public boolean isValidaLink(String link) {
+                try {
+            new URL(link).toURI();
+            return true;
+        } catch (MalformedURLException | URISyntaxException e) {
+            return false;
+        }
+    }
+
+
+    @Override
+    public boolean isValidaNoticia(NoticiaDTO noticia) throws Exception {
+        if(noticia.titulo().isEmpty()){
+            throw new IllegalArgumentException("O preenchimento do título é obrigatório");
+        }
+
+        if(noticia.descricao().isEmpty()){
+            throw new IllegalArgumentException("O preenchimento da descrição é obrigatório");
+        }
+
+        if(!noticia.link().isEmpty()){
+            if(!isValidaLink(noticia.link())){
+                throw new Exception("O endereço do link não é válido");
+            }
+        }
+
+        return true;
     }
 }

@@ -25,6 +25,7 @@ public class Noticia {
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
+
     @Column(name = "link")
     private String link;
 
