@@ -5,6 +5,7 @@ import com.api.newsletter.syonet.application.EmailService;
 import com.api.newsletter.syonet.application.NoticiaService;
 import com.api.newsletter.syonet.entities.Cliente;
 import com.api.newsletter.syonet.entities.Noticia;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ public class EmailSchedular {
     }
 
     @Scheduled(cron = "0 0 8 * * ?")
-    public void enviarNoticias() {
+    public void enviarNoticias() throws MessagingException {
         List<Noticia> noticias = noticiaService.filtrarNaoProcessadas();
         if (noticias.isEmpty()) {
             return;
