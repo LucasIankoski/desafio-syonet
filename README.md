@@ -11,10 +11,10 @@ A API foi desenvolvida com o intuito de completar o desafio disponibilizado pela
 ## Menus
 
 - [Instalação](#instalacao)
-- [Configuração](#config)
 - [Usabilidade](#usabilidade)
 - [API Endpoints](#api-endpoints)
 - [Database](#database)
+- [Configuração](#config)
 
 ## Instalação
 
@@ -121,4 +121,27 @@ POST /noticias - Registra uma notícia na base de dados.
 ```
 
 ## Database
-O projeto utiliza [PostgresSQL](https://www.postgresql.org/docs/) e foi utilizado [Docker Compose](https://hub.docker.com/_/postgres) para montar a imagem da base de dados. 
+O projeto utiliza [PostgresSQL](https://www.postgresql.org/docs/) e foi utilizado [Docker Compose](https://hub.docker.com/_/postgres) para montar a imagem da base de dados.
+
+## Configuração
+### STMP
+É necessário atribuir às variáveis de ambiente em um arquivo .env ou diretamente no arquivo .properties os valores corretos para o serviço de SMTP escolhido por você. Durante a construção desta API utilizamos os serviços SMPT do Google.
+
+```
+spring.mail.host=${SMTP_HOST}
+spring.mail.port=${SMTP_PORT}
+spring.mail.username=${SMTP_USERNAME}
+spring.mail.password=${SMTP_PASSWORD}
+spring.mail.properties.mail.smtp.auth=${SMTP_AUTH}
+spring.mail.properties.mail.smtp.starttls.enable=${SMTP_STARTTLS}
+```
+
+### Database
+
+É necessário atribuir às variáveis de ambiente em um arquivo .env ou diretamente no arquivo .properties os valores corretos para a conexão com o banco de dados. Durante a construção desta API utilizamos o Docker Compose para criar uma imagem do PostgresSQL 16.
+
+```
+spring.datasource.url=${DATABASE_URL}
+spring.datasource.username=${DATABASE_USERNAME}
+spring.datasource.password=${DATABASE_PASSWORD}
+```
